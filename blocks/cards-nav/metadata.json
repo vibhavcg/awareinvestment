@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-nav",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-18T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://awareinvestments.aware.com.au/investment/what-we-invest-in/infrastructure",
+    "originPage": "Infrastructure content page",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "navigation",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "circular icon + linked heading with trailing arrow (no body text, no photo)",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "'Where to next?' icon-led navigation tile grids",
+      "compact section-navigation tiles with a circular icon and a linked title",
+      "icon + linked-heading only tiles (no description paragraph)"
+    ],
+    "notSuitableFor": [
+      "photo-led explore cards with description text (use cards-explore)",
+      "icon feature tiles with body copy (use cards-feature)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/investment/what-we-invest-in/infrastructure"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-18T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,116 @@
+/* Block: accordion-cards — prominent expandable investment cards */
+/* Values extracted from source .cmp-accordion--default computed styles. */
+
+.accordion-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* --- Card (accordion item) --- */
+.accordion-cards .accordion-cards-item {
+  background-color: var(--background-color);
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* --- Summary / clickable header --- */
+.accordion-cards .accordion-cards-item-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  padding-left: 52px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--brand-purple);
+  transition: color 0.2s ease;
+}
+
+.accordion-cards .accordion-cards-item-label::-webkit-details-marker {
+  display: none;
+}
+
+/* open state: title turns magenta */
+.accordion-cards .accordion-cards-item[open] > .accordion-cards-item-label {
+  color: var(--brand-magenta);
+}
+
+/* --- Circular +/- toggle icon (magenta), left of title --- */
+.accordion-cards .accordion-cards-item-label::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--brand-magenta);
+  background-image:
+    linear-gradient(var(--brand-magenta), var(--brand-magenta)),
+    linear-gradient(var(--brand-magenta), var(--brand-magenta));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 9px 1.5px, 1.5px 9px;
+  transition: background-size 0.2s ease;
+}
+
+/* open state: hide the vertical bar to make a minus */
+.accordion-cards .accordion-cards-item[open] > .accordion-cards-item-label::before {
+  background-size: 9px 1.5px, 1.5px 0;
+}
+
+/* --- Panel / body --- */
+.accordion-cards .accordion-cards-item-body {
+  padding: 0 16px 16px;
+}
+
+.accordion-cards .accordion-cards-item-body p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+.accordion-cards .accordion-cards-item-body strong {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* --- Detail table: zebra striped, borderless --- */
+.accordion-cards .accordion-cards-item-body table {
+  width: 100%;
+  max-width: 520px;
+  border-collapse: collapse;
+  margin: 0 0 16px;
+}
+
+.accordion-cards .accordion-cards-item-body table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.accordion-cards .accordion-cards-item-body table td,
+.accordion-cards .accordion-cards-item-body table th {
+  padding: 16px;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: left;
+  vertical-align: top;
+  border: none;
+}
+
+.accordion-cards .accordion-cards-item-body table td:first-child,
+.accordion-cards .accordion-cards-item-body table th:first-child {
+  width: 40%;
+  white-space: nowrap;
+}
+
+.accordion-cards .accordion-cards-item-body table p {
+  margin: 0;
+}

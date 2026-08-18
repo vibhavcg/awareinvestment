@@ -1,0 +1,131 @@
+/* Aware Investments footer */
+
+footer {
+  border-top: 1px solid #e5e5e5;
+  background: #fff;
+}
+
+footer .footer-inner {
+  max-width: var(--content-max-width, 1176px);
+  margin: 0 auto;
+  padding: 64px 24px 40px;
+  font-family: var(--body-font-family, "Poppins", sans-serif);
+}
+
+/* --- Top: link columns + disclaimer --- */
+footer .footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+footer .footer-col h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--brand-purple, #55005a);
+  margin: 0 0 16px;
+}
+
+footer .footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-col li {
+  margin: 0 0 10px;
+}
+
+footer .footer-col a {
+  color: var(--brand-magenta, #db0081);
+  text-decoration: none;
+  font-size: 15px;
+}
+
+footer .footer-col a:hover {
+  text-decoration: underline;
+}
+
+footer .footer-col p {
+  color: #333;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+/* --- App download (mobile-only) --- */
+footer .footer-app {
+  display: none;
+  margin-top: 32px;
+}
+
+footer .footer-app h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--brand-purple, #55005a);
+  margin: 0 0 12px;
+}
+
+footer .footer-app img {
+  height: 40px;
+  width: auto;
+}
+
+/* --- Bottom bar --- */
+footer .footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+}
+
+footer .footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-purple, #55005a);
+}
+
+footer .footer-bottom ul {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-bottom a {
+  color: var(--brand-magenta, #db0081);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+footer .footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+/* --- Mobile --- */
+@media (width <= 900px) {
+  footer .footer-inner {
+    padding: 40px 20px 32px;
+  }
+
+  footer .footer-top {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  footer .footer-app {
+    display: block;
+  }
+
+  footer .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

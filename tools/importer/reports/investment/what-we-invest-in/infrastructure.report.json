@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://awareinvestments.aware.com.au/investment/what-we-invest-in/infrastructure",
+  "path": "investment/what-we-invest-in/infrastructure",
+  "timestamp": "2026-08-18T12:42:57.227Z",
+  "title": "Infrastructure | Investments",
+  "template": "content-page",
+  "blocks": [
+    "cards-feature",
+    "accordion-cards",
+    "cards-nav"
+  ]
+}

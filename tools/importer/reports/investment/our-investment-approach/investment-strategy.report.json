@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://awareinvestments.aware.com.au/investment/our-investment-approach/investment-strategy",
+  "path": "investment/our-investment-approach/investment-strategy",
+  "timestamp": "2026-08-18T12:44:59.135Z",
+  "title": "Our investment strategy | Investments",
+  "template": "content-page",
+  "blocks": [
+    "cards-nav"
+  ]
+}

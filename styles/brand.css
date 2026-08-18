@@ -1,0 +1,45 @@
+/*
+ * brand.css — Aware Investments design tokens
+ * Extracted from https://awareinvestments.aware.com.au/
+ */
+:root {
+  /* Fonts */
+  --heading-font-family: "Poppins", Arial, sans-serif;
+  --body-font-family: "Poppins", Arial, sans-serif;
+
+  /* Core colors */
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #ed008c;
+  --link-hover-color: #b8006e;
+
+  /* Brand palette */
+  --brand-purple: #55005a;
+  --brand-magenta: #ed008c;
+  --brand-cream: #fef6ef;
+
+  /* Section variants */
+  --highlight-background-color: #fef6ef;
+  --banner-background-color: #ed008c;
+
+  /* Spacing */
+  --section-padding: 80px;
+  --content-max-width: 1176px;
+  --nav-height: 100px;
+
+  /* Heading sizes — desktop */
+  --heading-size-xxl: 64px;
+  --heading-size-xl: 34px;
+  --heading-size-l: 24px;
+  --heading-size-m: 20px;
+  --heading-size-s: 16px;
+  --heading-size-xs: 14px;
+
+  /* Heading sizes — mobile */
+  --heading-size-xxl-mobile: 36px;
+  --heading-size-xl-mobile: 28px;
+  --heading-size-l-mobile: 24px;
+  --heading-size-m-mobile: 20px;
+  --heading-size-s-mobile: 18px;
+  --heading-size-xs-mobile: 16px;
+}

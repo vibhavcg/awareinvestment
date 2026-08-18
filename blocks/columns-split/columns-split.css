@@ -1,0 +1,79 @@
+/* Block: columns-split — 50/50 image + text split.
+   Values extracted from source computed styles:
+   https://awareinvestments.aware.com.au/ (sections 2 & 5) */
+
+/* --- Row layout --- */
+.columns-split > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Image column stacks first on mobile */
+.columns-split > div > .columns-split-img-col {
+  order: 0;
+}
+
+.columns-split > div > div {
+  order: 1;
+}
+
+/* --- Image --- */
+.columns-split img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 548 / 360;
+  object-fit: cover;
+  border-radius: 40px;
+}
+
+/* --- Text column --- */
+.columns-split p {
+  margin: 0;
+}
+
+/* space between the body copy and the CTA link */
+.columns-split p + p {
+  margin-top: 40px;
+}
+
+/* --- CTA link (plain magenta text link with trailing arrow, no button styling) --- */
+.columns-split a:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.columns-split a:any-link:hover {
+  color: var(--link-hover-color);
+}
+
+.columns-split a:any-link::after {
+  content: "";
+  width: 1.1em;
+  height: 1.1em;
+  background-color: currentColor;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center / contain;
+}
+
+/* --- Desktop: side-by-side 50/50 --- */
+@media (width >= 900px) {
+  .columns-split > div {
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .columns-split > div > div {
+    flex: 1;
+    order: unset;
+  }
+
+  /* image-right variant (source section 2) */
+  .columns-split.image-right > div {
+    flex-direction: row-reverse;
+  }
+}

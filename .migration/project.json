@@ -1,0 +1,10 @@
+{
+  "type": "doc",
+  "sites": {
+    "awareinvestment": {
+      "previewOrg": "vibhavcg",
+      "previewSite": "awareinvestment",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}
