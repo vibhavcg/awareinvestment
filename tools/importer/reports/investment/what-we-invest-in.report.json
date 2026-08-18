@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://awareinvestments.aware.com.au/investment/what-we-invest-in",
+  "path": "investment/what-we-invest-in",
+  "timestamp": "2026-08-18T12:45:58.596Z",
+  "title": "What we invest in | Investments",
+  "template": "content-page",
+  "blocks": [
+    "cards-nav"
+  ]
+}

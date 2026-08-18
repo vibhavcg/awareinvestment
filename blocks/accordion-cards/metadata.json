@@ -1,0 +1,38 @@
+{
+  "variantName": "accordion-cards",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-08-18T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://awareinvestments.aware.com.au/investment/what-we-invest-in/infrastructure",
+    "originPage": "Infrastructure content page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "feature",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "prominent rounded pill: circular '+' toggle + bold title; expands to rich body with paragraphs and a detail data table",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "expandable example/case-study cards with detail tables",
+      "prominent bordered accordion pills that reveal rich content",
+      "collapsible content sections that contain tables or multi-paragraph bodies"
+    ],
+    "notSuitableFor": [
+      "subtle single-line footnote/disclaimer disclosures (use accordion-footnotes)",
+      "always-visible content (use default content)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/investment/what-we-invest-in/infrastructure"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-18T00:00:00.000Z"
+  }
+}

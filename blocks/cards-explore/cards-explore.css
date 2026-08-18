@@ -1,0 +1,116 @@
+/* Block: cards-explore — three explore/navigation cards.
+   Values extracted from source computed styles (see migration-work/cards-explore-extracted.css). */
+
+.cards-explore > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.cards-explore > ul > li {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border: 0;
+  border-radius: 24px;
+}
+
+/* --- image (top, rounded top corners) --- */
+.cards-explore .cards-explore-card-image {
+  line-height: 0;
+}
+
+.cards-explore .cards-explore-card-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 360 / 244;
+  object-fit: cover;
+  border-radius: 24px 24px 0 0;
+}
+
+/* --- text body (white, rounded bottom corners) --- */
+.cards-explore .cards-explore-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 24px 24px 32px;
+  border-radius: 0 0 24px 24px;
+}
+
+.cards-explore .cards-explore-card-body h3 {
+  font-size: var(--heading-size-l);
+  font-weight: 600;
+  line-height: 1.33;
+  color: var(--brand-purple);
+  margin: 0 0 16px;
+}
+
+.cards-explore .cards-explore-card-body p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+/* CTA paragraph (last child) pushed to the bottom for equal-height cards */
+.cards-explore .cards-explore-card-body p:last-child {
+  margin: auto 0 0;
+  padding-top: 16px;
+}
+
+/* --- CTA link (magenta, arrow) --- */
+/* If EDS auto-decorates the standalone <p><a> into a .button, reset the pill
+   styling back to a plain inline text link with a trailing arrow. */
+.cards-explore .cards-explore-card-body a,
+main .cards-explore a.button:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--brand-magenta);
+  text-decoration: none;
+  white-space: normal;
+}
+
+.cards-explore .cards-explore-card-body a:hover,
+main .cards-explore a.button:hover,
+main .cards-explore a.button:focus {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+/* trailing right-arrow icon (source uses a Font Awesome glyph; recreate as SVG) */
+.cards-explore .cards-explore-card-body a::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  background-color: currentcolor;
+  -webkit-mask: var(--cards-explore-arrow) no-repeat center / contain;
+  mask: var(--cards-explore-arrow) no-repeat center / contain;
+}
+
+.cards-explore {
+  --cards-explore-arrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M4 11h13.17l-5.58-5.59L13 4l8 8-8 8-1.41-1.41L17.17 13H4z"/></svg>');
+}
+
+/* --- desktop: three columns --- */
+@media (width >= 900px) {
+  .cards-explore > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

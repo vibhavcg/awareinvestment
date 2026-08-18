@@ -1,0 +1,74 @@
+/*
+ * accordion-footnotes — compact "Footnotes" disclosure
+ * Source: awareinvestments.aware.com.au (footnotes section)
+ * A subtle, narrow collapsible pill revealing short footnote lines.
+ */
+
+.accordion-footnotes .accordion-footnotes-item {
+  border: 0;
+}
+
+/* narrow pill toggle */
+.accordion-footnotes .accordion-footnotes-item-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 12px 16px;
+  background-color: #fff4fa;
+  border: 1px solid #d4d4d4;
+  border-radius: 8px 8px 0 0;
+  color: var(--brand-purple);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion-footnotes .accordion-footnotes-item-label::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-footnotes .accordion-footnotes-item-label p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/* magenta chevron (down collapsed, up expanded) */
+.accordion-footnotes .accordion-footnotes-item-label::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border: solid var(--brand-magenta);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.accordion-footnotes .accordion-footnotes-item[open] .accordion-footnotes-item-label::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+/* footnote body — full width, aligned to left edge */
+.accordion-footnotes .accordion-footnotes-item-body {
+  padding: 8px 0 0;
+}
+
+.accordion-footnotes .accordion-footnotes-item-body p {
+  margin: 0 0 24px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-color);
+}
+
+.accordion-footnotes .accordion-footnotes-item-body p:last-child {
+  margin-bottom: 0;
+}
+
+.accordion-footnotes .accordion-footnotes-item-body sup {
+  font-size: 9px;
+}

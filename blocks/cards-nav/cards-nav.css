@@ -1,0 +1,79 @@
+/* Block: cards-nav — "Where to next?" icon-led navigation tiles.
+   Values extracted from source computed styles (see migration-work/cards-nav-extracted.css). */
+
+/* Tile grid — mobile first (single column) */
+.cards-nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* Tile — white card on the cream band */
+.cards-nav > ul > li {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color); /* #fff */
+  padding: 24px;
+  border-radius: 8px;
+}
+
+/* Circular purple icon */
+.cards-nav .cards-nav-card-image {
+  line-height: 0;
+}
+
+.cards-nav .cards-nav-card-image img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Heading block */
+.cards-nav .cards-nav-card-body {
+  margin: 24px 0 0;
+}
+
+.cards-nav .cards-nav-card-body h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.33;
+  color: var(--brand-purple); /* #55005a */
+}
+
+/* Linked heading + trailing arrow */
+.cards-nav .cards-nav-card-body h3 a:any-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--brand-purple);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cards-nav .cards-nav-card-body h3 a:hover {
+  color: var(--brand-purple);
+  text-decoration: none;
+}
+
+/* Font Awesome arrow-right (f061) reproduced as an inline SVG (FA not available in EDS) */
+.cards-nav .cards-nav-card-body h3 a:any-link::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2355005a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='12' x2='20' y2='12'/%3E%3Cpolyline points='13 5 20 12 13 19'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* Desktop — three equal columns */
+@media (width >= 900px) {
+  .cards-nav > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

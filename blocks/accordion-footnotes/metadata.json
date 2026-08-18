@@ -1,0 +1,38 @@
+{
+  "variantName": "accordion-footnotes",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-08-18T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://awareinvestments.aware.com.au/",
+    "originPage": "Aware Super Investments landing page",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "faq",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "collapsible title + body",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "footnotes / disclaimer disclosures",
+      "collapsible supplementary content",
+      "FAQ-style expandable sections"
+    ],
+    "notSuitableFor": [
+      "always-visible body content",
+      "tabbed content (use tabs)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-18T00:00:00.000Z"
+  }
+}

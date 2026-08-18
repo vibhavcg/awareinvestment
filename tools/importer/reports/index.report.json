@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "url": "https://awareinvestments.aware.com.au/",
+  "path": "index",
+  "timestamp": "2026-08-18T12:41:49.223Z",
+  "title": "Aware Super Investments | Investments",
+  "template": "landing-page",
+  "blocks": [
+    "hero-brand",
+    "columns-split",
+    "columns-split",
+    "cards-feature",
+    "cards-explore",
+    "accordion-footnotes",
+    "accordion-footnotes"
+  ]
+}

@@ -1,0 +1,183 @@
+@import url('brand.css');
+
+/*
+ * styles.css — Aware Investments global design system
+ */
+
+:root {
+  /* fallbacks in case brand.css is unavailable */
+  --heading-font-family: "Poppins", Arial, sans-serif;
+  --body-font-family: "Poppins", Arial, sans-serif;
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #ed008c;
+  --link-hover-color: #b8006e;
+}
+
+/* fallback (system) fonts to reduce CLS while webfont loads */
+@font-face {
+  font-family: 'Poppins-fallback';
+  size-adjust: 105%;
+  src: local('Arial');
+}
+
+body {
+  display: none;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.appear {
+  display: block;
+}
+
+header {
+  min-height: var(--nav-height, 100px);
+}
+
+/* ---------- Default content typography ---------- */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font-family);
+  scroll-margin: 40px;
+}
+
+h1 {
+  font-size: var(--heading-size-xxl);
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--brand-purple);
+  margin: 0 0 24px;
+}
+
+h2 {
+  font-size: var(--heading-size-xl);
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--brand-purple);
+  margin: 0 0 16px;
+}
+
+h3 {
+  font-size: var(--heading-size-l);
+  font-weight: 600;
+  line-height: 1.33;
+  color: var(--brand-purple);
+  margin: 0 0 12px;
+}
+
+h4 { font-size: var(--heading-size-m); font-weight: 600; color: var(--brand-purple); margin: 0 0 8px; }
+h5 { font-size: var(--heading-size-s); font-weight: 600; color: var(--brand-purple); margin: 0 0 8px; }
+h6 { font-size: var(--heading-size-xs); font-weight: 600; color: var(--brand-purple); margin: 0 0 8px; }
+
+p, dl, ol, ul, pre, blockquote {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+p { color: var(--text-color); }
+
+a:any-link {
+  color: var(--link-color);
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+/* ---------- EDS button reset + variants ---------- */
+
+main .button-container { display: inline; }
+
+main a.button:any-link,
+main button.button {
+  display: inline-block;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 30px;
+  padding: 0.6em 1.6em;
+  font-family: var(--body-font-family);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+/* primary (magenta) */
+main a.button:any-link {
+  background-color: var(--brand-magenta);
+  border-color: var(--brand-magenta);
+  color: #fff;
+}
+
+main a.button:hover,
+main a.button:focus {
+  background-color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+  color: #fff;
+}
+
+/* secondary / outline */
+main a.button.secondary {
+  background-color: transparent;
+  border-color: var(--brand-purple);
+  color: var(--brand-purple);
+}
+
+main a.button.secondary:hover,
+main a.button.secondary:focus {
+  background-color: var(--brand-purple);
+  color: #fff;
+}
+
+/* ---------- Layout ---------- */
+
+main .section {
+  padding: var(--section-padding) 24px;
+}
+
+main .section > div {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+/* ---------- Section background variants ---------- */
+
+main .section.highlight {
+  background-color: var(--highlight-background-color);
+}
+
+main .section.banner {
+  background-color: var(--banner-background-color);
+  color: #fff;
+}
+
+main .section.banner h1,
+main .section.banner h2,
+main .section.banner h3 {
+  color: #fff;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (width <= 900px) {
+  h1 { font-size: var(--heading-size-xxl-mobile); }
+  h2 { font-size: var(--heading-size-xl-mobile); }
+  h3 { font-size: var(--heading-size-l-mobile); }
+  h4 { font-size: var(--heading-size-m-mobile); }
+  h5 { font-size: var(--heading-size-s-mobile); }
+  h6 { font-size: var(--heading-size-xs-mobile); }
+
+  main .section { padding: 40px 20px; }
+}

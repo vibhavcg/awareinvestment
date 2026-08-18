@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-feature",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-18T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://awareinvestments.aware.com.au/",
+    "originPage": "Aware Super Investments landing page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + heading + description + link",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "feature highlight grids with circular icons",
+      "value-proposition tiles linking to key sections",
+      "icon-led 3-up card rows"
+    ],
+    "notSuitableFor": [
+      "cards with large photographs (use cards-explore)",
+      "side-by-side text/image splits (use columns-split)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index", "/investment/what-we-invest-in/infrastructure"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-18T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,136 @@
+/* eslint-disable */
+/* global WebImporter */
+
+// PARSER IMPORTS
+import cardsFeatureParser from './parsers/cards-feature.js';
+import accordionCardsParser from './parsers/accordion-cards.js';
+import cardsNavParser from './parsers/cards-nav.js';
+
+// TRANSFORMER IMPORTS
+import cleanupTransformer from './transformers/awareinvestments-cleanup.js';
+import sectionsTransformer from './transformers/awareinvestments-sections.js';
+import imagesTransformer from './transformers/awareinvestments-images.js';
+
+// PARSER REGISTRY
+const parsers = {
+  'cards-feature': cardsFeatureParser,
+  'accordion-cards': accordionCardsParser,
+  'cards-nav': cardsNavParser,
+};
+
+// PAGE TEMPLATE CONFIGURATION (embedded from page-templates.json)
+const PAGE_TEMPLATE = {
+  name: 'content-page',
+  description: 'Interior content page: H1 title on pink banner, intro, feature grid, accordion example cards, where-to-next nav cards.',
+  urls: [
+    'https://awareinvestments.aware.com.au/investment/what-we-invest-in/infrastructure',
+    'https://awareinvestments.aware.com.au/investment/about-us',
+    'https://awareinvestments.aware.com.au/investment/about-us/contact-us',
+    'https://awareinvestments.aware.com.au/investment/about-us/our-people',
+    'https://awareinvestments.aware.com.au/investment/our-investment-approach',
+    'https://awareinvestments.aware.com.au/investment/our-investment-approach/investment-strategy',
+    'https://awareinvestments.aware.com.au/investment/our-investment-approach/responsible-ownership',
+    'https://awareinvestments.aware.com.au/investment/what-we-invest-in',
+    'https://awareinvestments.aware.com.au/investment/what-we-invest-in/private-equity',
+    'https://awareinvestments.aware.com.au/investment/what-we-invest-in/property',
+    'https://awareinvestments.aware.com.au/investment/privacy-uk',
+  ],
+  blocks: [
+    { name: 'cards-feature', instances: ['section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-4)', '.flexi-icon-wrapper--card.col-4'] },
+    { name: 'accordion-cards', instances: ['.cmp-accordion.cmp-accordion--default'] },
+    { name: 'cards-nav', instances: ['section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-3)', '.flexi-icon-wrapper--card.col-3'] },
+  ],
+};
+
+// TRANSFORMER REGISTRY
+const transformers = [
+  cleanupTransformer,
+  imagesTransformer,
+  sectionsTransformer,
+];
+
+function executeTransformers(hookName, element, payload) {
+  const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
+  transformers.forEach((transformerFn) => {
+    try {
+      transformerFn.call(null, hookName, element, enhancedPayload);
+    } catch (e) {
+      console.error(`Transformer failed at ${hookName}:`, e);
+    }
+  });
+}
+
+function findBlocksOnPage(document, template) {
+  const pageBlocks = [];
+  const seen = new Set();
+  template.blocks.forEach((blockDef) => {
+    blockDef.instances.forEach((selector) => {
+      let elements;
+      try {
+        elements = document.querySelectorAll(selector);
+      } catch (e) {
+        console.warn(`Invalid selector for ${blockDef.name}: ${selector}`);
+        return;
+      }
+      elements.forEach((element) => {
+        if (seen.has(element)) return;
+        // avoid mapping a descendant when its ancestor (or vice-versa) is already captured for this block
+        seen.add(element);
+        pageBlocks.push({ name: blockDef.name, selector, element, section: blockDef.section || null });
+      });
+    });
+  });
+  // De-duplicate: if a fallback selector captured a child already inside a captured section, drop the nested one
+  const filtered = pageBlocks.filter((b, i) => {
+    return !pageBlocks.some((other, j) => j !== i && other.name === b.name && other.element !== b.element && other.element.contains(b.element));
+  });
+  console.log(`Found ${filtered.length} block instances on page`);
+  return filtered;
+}
+
+export default {
+  transform: (payload) => {
+    const { document, url, html, params } = payload;
+    const main = document.body;
+
+    executeTransformers('beforeTransform', main, payload);
+
+    const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
+    pageBlocks.forEach((block) => {
+      if (!block.element.parentNode) return;
+      const parser = parsers[block.name];
+      if (parser) {
+        try {
+          parser(block.element, { document, url, params });
+        } catch (e) {
+          console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
+        }
+      } else {
+        console.warn(`No parser found for block: ${block.name}`);
+      }
+    });
+
+    executeTransformers('afterTransform', main, payload);
+
+    const hr = document.createElement('hr');
+    main.appendChild(hr);
+    WebImporter.rules.createMetadata(main, document);
+    WebImporter.rules.transformBackgroundImages(main, document);
+    WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
+
+    const rawPath = new URL(params.originalURL).pathname
+      .replace(/\/$/, '')
+      .replace(/\.html?$/, '');
+    const path = WebImporter.FileUtils.sanitizePath(rawPath === '' ? '/index' : rawPath);
+
+    return [{
+      element: main,
+      path,
+      report: {
+        title: document.title,
+        template: PAGE_TEMPLATE.name,
+        blocks: pageBlocks.map((b) => b.name),
+      },
+    }];
+  },
+};

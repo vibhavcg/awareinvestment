@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "projectType": "doc"
+  },
+  "templates": [
+    {
+      "name": "landing-page",
+      "urls": [
+        "https://awareinvestments.aware.com.au/",
+        "https://awareinvestments.aware.com.au/investment"
+      ],
+      "coverageGaps": [],
+      "description": "Marketing landing page: hero with heading, intro split section with image+text, feature cards linking to key sections, split image/text 'investment strategy' section, and an 'explore more' 3-column card grid. Used for the homepage and the /investment hub.",
+      "blocks": [
+        {
+          "name": "hero-brand",
+          "instances": [
+            "#main > div.aem-Grid > section.sectioncontainer:nth-of-type(1)"
+          ]
+        },
+        {
+          "name": "columns-split",
+          "instances": [
+            "#main > div.aem-Grid > section.sectioncontainer:nth-of-type(2)",
+            "#main > div.aem-Grid > section.sectioncontainer:nth-of-type(5)"
+          ]
+        },
+        {
+          "name": "cards-feature",
+          "instances": [
+            "#main > div.aem-Grid > section.sectioncontainer:nth-of-type(4)"
+          ]
+        },
+        {
+          "name": "cards-explore",
+          "instances": [
+            "#main > div.aem-Grid > section.sectioncontainer:nth-of-type(7)"
+          ]
+        },
+        {
+          "name": "accordion-footnotes",
+          "instances": [
+            "#main > div.aem-Grid > section.sectioncontainer:nth-of-type(8)",
+            ".cmp-accordion--footnotes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "content-page",
+      "urls": [
+        "https://awareinvestments.aware.com.au/investment/what-we-invest-in/infrastructure",
+        "https://awareinvestments.aware.com.au/investment/about-us",
+        "https://awareinvestments.aware.com.au/investment/about-us/contact-us",
+        "https://awareinvestments.aware.com.au/investment/about-us/our-people",
+        "https://awareinvestments.aware.com.au/investment/our-investment-approach",
+        "https://awareinvestments.aware.com.au/investment/our-investment-approach/investment-strategy",
+        "https://awareinvestments.aware.com.au/investment/our-investment-approach/responsible-ownership",
+        "https://awareinvestments.aware.com.au/investment/what-we-invest-in",
+        "https://awareinvestments.aware.com.au/investment/what-we-invest-in/private-equity",
+        "https://awareinvestments.aware.com.au/investment/what-we-invest-in/property",
+        "https://awareinvestments.aware.com.au/investment/privacy-uk"
+      ],
+      "coverageGaps": [],
+      "description": "Interior content page: H1 title on a pink banner, breadcrumb/utility bar (excluded chrome), intro heading+paragraph, cream feature-card grid, expandable accordion example cards with detail tables, and a 'Where to next?' icon-led nav card grid.",
+      "blocks": [
+        {
+          "name": "cards-feature",
+          "instances": [
+            "section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-4)",
+            ".flexi-icon-wrapper--card.col-4"
+          ]
+        },
+        {
+          "name": "accordion-cards",
+          "instances": [
+            ".cmp-accordion.cmp-accordion--default"
+          ]
+        },
+        {
+          "name": "cards-nav",
+          "instances": [
+            "section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-3)",
+            ".flexi-icon-wrapper--card.col-3"
+          ]
+        }
+      ]
+    }
+  ]
+}

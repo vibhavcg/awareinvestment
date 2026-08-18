@@ -1,0 +1,98 @@
+/* Block: hero-brand — full-bleed magenta hero banner
+   Values extracted from source computed styles at awareinvestments.aware.com.au */
+
+/* Full-bleed: override EDS section max-width wrapper */
+.hero-brand-container .hero-brand-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-brand.block {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: var(--brand-magenta);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Image row (row 1 in DOM): the bleeding photo ---- */
+.hero-brand.block > div:first-child {
+  order: 2;                 /* mobile: photo below the heading */
+  position: relative;
+  width: 100%;
+  line-height: 0;
+}
+
+.hero-brand.block > div:first-child picture {
+  display: block;
+}
+
+.hero-brand.block > div:first-child img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Curved magenta divider (left-curve-banner.svg) overlaying the photo edge */
+.hero-brand.block > div:first-child::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg width='501' height='460' viewBox='0 0 501 460' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M121.798 138.106C51.2172 163.796 14.8253 241.838 40.5147 312.419L94.2297 460H0V0H501.243L121.798 138.106Z' fill='%23ED008C'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: auto 100%;
+  pointer-events: none;
+}
+
+/* ---- Heading row (row 2 in DOM) ---- */
+.hero-brand.block > div:last-child {
+  order: 1;                 /* mobile: heading above the photo */
+  position: relative;
+  z-index: 3;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px 24px 0;
+}
+
+.hero-brand.block h1 {
+  margin: 0 0 24px;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.12;
+}
+
+/* ---- Desktop: heading left, photo bleeds off the right ---- */
+@media (width >= 900px) {
+  .hero-brand.block {
+    display: block;
+    min-height: 460px;
+  }
+
+  .hero-brand.block > div:first-child {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 45%;
+    height: 100%;
+  }
+
+  .hero-brand.block > div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 460px;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .hero-brand.block h1 {
+    max-width: 640px;
+    font-size: 64px;
+  }
+}

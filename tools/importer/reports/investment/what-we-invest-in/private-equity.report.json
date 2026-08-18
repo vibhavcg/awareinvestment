@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://awareinvestments.aware.com.au/investment/what-we-invest-in/private-equity",
+  "path": "investment/what-we-invest-in/private-equity",
+  "timestamp": "2026-08-18T12:46:05.133Z",
+  "title": "Private equity | Investments",
+  "template": "content-page",
+  "blocks": [
+    "accordion-cards",
+    "cards-nav"
+  ]
+}
