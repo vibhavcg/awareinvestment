@@ -15,7 +15,9 @@ export default async function decorate(block) {
 
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
-  const sections = [...tmp.querySelectorAll('main > div, body > div')];
+  // EDS .plain.html strips <body>/<main>; fall back to direct top-level divs.
+  let sections = [...tmp.querySelectorAll('main > div, body > div')];
+  if (sections.length === 0) sections = [...tmp.children].filter((el) => el.tagName === 'DIV');
 
   block.textContent = '';
   const footer = document.createElement('div');

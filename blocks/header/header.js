@@ -36,7 +36,11 @@ export default async function decorate(block) {
 
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
-  const sections = [...tmp.querySelectorAll('main > div, body > div')];
+  // The EDS .plain.html pipeline strips <body>/<main>, so the fragment is just
+  // the top-level section <div>s. Fall back through main/body wrappers (aem up /
+  // local) to direct children (production .plain.html).
+  let sections = [...tmp.querySelectorAll('main > div, body > div')];
+  if (sections.length === 0) sections = [...tmp.children].filter((el) => el.tagName === 'DIV');
   const brandSection = sections[0];
   const navSection = sections[1];
 
