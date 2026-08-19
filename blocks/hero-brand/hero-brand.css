@@ -1,6 +1,9 @@
 /* Block: hero-brand — full-bleed magenta hero banner
    Values extracted from source computed styles at awareinvestments.aware.com.au */
-
+/* Removing the default section container padding
+.section.hero-brand-container {
+    padding: 0;
+}
 /* Full-bleed: override EDS section max-width wrapper */
 .hero-brand-container .hero-brand-wrapper {
   max-width: unset;
