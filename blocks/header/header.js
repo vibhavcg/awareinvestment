@@ -26,7 +26,10 @@ function wrapTextNodes(li) {
 export default async function decorate(block) {
   // Dual-fetch: localhost/aem-up first, then DA/EDS production path.
   const navMeta = block.querySelector('a')?.getAttribute('href');
-  let resp = await fetch('/content/nav.plain.html');
+  // Try production root first (/nav.plain.html), then local /content path,
+  // then any explicit block-metadata nav path.
+  let resp = await fetch('/nav.plain.html');
+  if (!resp.ok) resp = await fetch('/content/nav.plain.html');
   if (!resp.ok && navMeta) resp = await fetch(`${navMeta}.plain.html`);
   if (!resp.ok) return;
   const html = await resp.text();
