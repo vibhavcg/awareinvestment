@@ -7,11 +7,10 @@ header .header {
 header nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
-  max-width: var(--content-max-width, 1176px);
-  margin: 0 auto;
-  padding: 20px 24px;
+  width: 100%;
+  margin: 0;
+  padding: 20px 16px;
   min-height: var(--nav-height, 100px);
   box-sizing: border-box;
   position: relative;
@@ -24,18 +23,20 @@ header nav .nav-brand a {
 }
 
 header nav .nav-brand img {
-  height: 56px;
+  height: 58px;
   width: auto;
   display: block;
 }
 
 /* --- Nav list --- */
+/* The nav group is centered in the space to the right of the logo, matching the
+   source (roughly equal gaps on both sides of the grouped items). */
 header nav .nav-list {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 32px;
-  margin: 0;
+  gap: 24px;
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -50,13 +51,20 @@ header nav .nav-trigger {
   font-family: var(--body-font-family, "Poppins", sans-serif);
   font-size: 16px;
   font-weight: 600;
-  color: var(--brand-magenta, #ed008c);
+  color: var(--brand-purple, #55005a);
   padding: 8px 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  transition: color 0.15s ease;
 }
 
+header nav .nav-trigger:hover {
+  color: var(--brand-magenta, #ed008c);
+}
+
+/* Chevron only appears in the open (expanded) state on desktop — source shows
+   no chevron in the resting state. */
 header nav .nav-trigger::after {
   content: "";
   width: 8px;
@@ -66,11 +74,17 @@ header nav .nav-trigger::after {
   transform: rotate(45deg);
   transition: transform 0.2s ease;
   margin-top: -4px;
+  opacity: 0;
+}
+
+header nav .nav-trigger[aria-expanded="true"] {
+  color: var(--brand-magenta, #ed008c);
 }
 
 header nav .nav-trigger[aria-expanded="true"]::after {
   transform: rotate(-135deg);
   margin-top: 2px;
+  opacity: 1;
 }
 
 /* --- Dropdown panel --- */
@@ -181,6 +195,7 @@ header nav .nav-drop-back::before {
 
   header nav .nav-hamburger {
     display: flex;
+    margin-left: auto; /* push to the far right, matching source */
   }
 
   header nav .nav-brand img { height: 40px; }
@@ -219,6 +234,18 @@ header nav .nav-drop-back::before {
     padding: 18px 20px;
     font-size: 18px;
     color: var(--brand-purple, #55005a);
+  }
+
+  /* chevron visible on mobile (source shows a chevron per row) */
+  header nav .nav-trigger::after {
+    opacity: 1;
+    transform: rotate(45deg);
+  }
+
+  /* on mobile the list is centered auto-margins from desktop must reset */
+  header nav .nav-list {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   /* Sub-panel slides in from the right over the top-level list */
