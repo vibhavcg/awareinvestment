@@ -115,6 +115,87 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/columns-split.js
+  function parse4(element, { document: document2 }) {
+    const image = element.querySelector(
+      '.contenttile-textimage__image img, [class*="__image"] img, img'
+    );
+    const contentRoot = element.querySelector(
+      '.contenttile-textimage__content, [class*="__content"]'
+    ) || element;
+    const heading = contentRoot.querySelector(
+      '.contenttile-textimage__content-title, h1, h2, h3, [class*="content-title"]'
+    );
+    const description = Array.from(
+      contentRoot.querySelectorAll(
+        '.contenttile-textimage__content-description, [class*="content-description"]'
+      )
+    );
+    const ctaLinks = Array.from(
+      contentRoot.querySelectorAll(
+        '.contenttile-textimage__content-button a, [class*="content-button"] a, .buttons-list a'
+      )
+    );
+    if (!heading && description.length === 0 && !image) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const textCell = [];
+    if (heading) textCell.push(heading);
+    if (description.length) {
+      textCell.push(...description);
+    }
+    textCell.push(...ctaLinks);
+    const imageCell = image ? [image] : [""];
+    const cells = [];
+    cells.push([imageCell, textCell]);
+    const block = WebImporter.Blocks.createBlock(document2, { name: "columns-split", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/cards-explore.js
+  function parse5(element, { document: document2 }) {
+    let cards = Array.from(element.querySelectorAll(".contenttile-textimage"));
+    if (cards.length === 0) {
+      cards = Array.from(element.querySelectorAll(".contenttile"));
+    }
+    cards = cards.filter((c, i) => cards.indexOf(c) === i);
+    if (cards.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [];
+    cards.forEach((card) => {
+      const image = card.querySelector(
+        '.contenttile-textimage__image img, [class*="__image"] img, img'
+      );
+      const content = card.querySelector(
+        '.contenttile-textimage__content, [class*="__content"]'
+      ) || card;
+      const heading = content.querySelector(
+        '.contenttile-textimage__content-title, h1, h2, h3, [class*="content-title"]'
+      );
+      const description = Array.from(
+        content.querySelectorAll(
+          '.contenttile-textimage__content-description, [class*="content-description"]'
+        )
+      );
+      const ctaLinks = Array.from(
+        content.querySelectorAll(
+          '.contenttile-textimage__content-button a, [class*="content-button"] a, .buttons-list a'
+        )
+      );
+      const textCell = [];
+      if (heading) textCell.push(heading);
+      if (description.length) textCell.push(...description);
+      textCell.push(...ctaLinks);
+      const imageCell = image ? [image] : [""];
+      cells.push([imageCell, textCell.length ? textCell : [""]]);
+    });
+    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-explore", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/awareinvestments-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -227,6 +308,8 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-content-page.js
   var parsers = {
+    "cards-explore": parse5,
+    "columns-split": parse4,
     "cards-feature": parse,
     "accordion-cards": parse2,
     "cards-nav": parse3
@@ -248,9 +331,17 @@ var CustomImportScript = (() => {
       "https://awareinvestments.aware.com.au/investment/privacy-uk"
     ],
     blocks: [
-      { name: "cards-feature", instances: ["section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-4)", ".flexi-icon-wrapper--card.col-4"] },
+      // 3-up "Where to next?" photo cards (image on top) → cards-explore.
+      // Target the fixed-grid that holds the top-image tiles.
+      { name: "cards-explore", instances: ["div.fixed-grid:has(> div > .contenttile-textimage.contenttile__image-position--top)"] },
+      // 50/50 image+text splits (image on right or left) → columns-split.
+      { name: "columns-split", instances: ["section.sectioncontainer:has(> div .contenttile-textimage.contenttile__image-position--right)", "section.sectioncontainer:has(> div .contenttile-textimage.contenttile__image-position--left)"] },
+      // Feature cards: icon + heading + BODY text (any column count). The body
+      // paragraph is what distinguishes feature cards from nav cards.
+      { name: "cards-feature", instances: [".flexi-icon-wrapper--card:has(.flexi-icon .body)"] },
       { name: "accordion-cards", instances: [".cmp-accordion.cmp-accordion--default"] },
-      { name: "cards-nav", instances: ["section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-3)", ".flexi-icon-wrapper--card.col-3"] }
+      // Nav cards: icon + linked heading, NO body text.
+      { name: "cards-nav", instances: [".flexi-icon-wrapper--card:not(:has(.flexi-icon .body))"] }
     ]
   };
   var transformers = [

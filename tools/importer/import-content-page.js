@@ -5,6 +5,8 @@
 import cardsFeatureParser from './parsers/cards-feature.js';
 import accordionCardsParser from './parsers/accordion-cards.js';
 import cardsNavParser from './parsers/cards-nav.js';
+import columnsSplitParser from './parsers/columns-split.js';
+import cardsExploreParser from './parsers/cards-explore.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/awareinvestments-cleanup.js';
@@ -13,6 +15,8 @@ import imagesTransformer from './transformers/awareinvestments-images.js';
 
 // PARSER REGISTRY
 const parsers = {
+  'cards-explore': cardsExploreParser,
+  'columns-split': columnsSplitParser,
   'cards-feature': cardsFeatureParser,
   'accordion-cards': accordionCardsParser,
   'cards-nav': cardsNavParser,
@@ -36,9 +40,17 @@ const PAGE_TEMPLATE = {
     'https://awareinvestments.aware.com.au/investment/privacy-uk',
   ],
   blocks: [
-    { name: 'cards-feature', instances: ['section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-4)', '.flexi-icon-wrapper--card.col-4'] },
+    // 3-up "Where to next?" photo cards (image on top) → cards-explore.
+    // Target the fixed-grid that holds the top-image tiles.
+    { name: 'cards-explore', instances: ['div.fixed-grid:has(> div > .contenttile-textimage.contenttile__image-position--top)'] },
+    // 50/50 image+text splits (image on right or left) → columns-split.
+    { name: 'columns-split', instances: ['section.sectioncontainer:has(> div .contenttile-textimage.contenttile__image-position--right)', 'section.sectioncontainer:has(> div .contenttile-textimage.contenttile__image-position--left)'] },
+    // Feature cards: icon + heading + BODY text (any column count). The body
+    // paragraph is what distinguishes feature cards from nav cards.
+    { name: 'cards-feature', instances: ['.flexi-icon-wrapper--card:has(.flexi-icon .body)'] },
     { name: 'accordion-cards', instances: ['.cmp-accordion.cmp-accordion--default'] },
-    { name: 'cards-nav', instances: ['section.sectioncontainer.background-colour-neutral-yellow:has(.flexi-icon-wrapper--card.col-3)', '.flexi-icon-wrapper--card.col-3'] },
+    // Nav cards: icon + linked heading, NO body text.
+    { name: 'cards-nav', instances: ['.flexi-icon-wrapper--card:not(:has(.flexi-icon .body))'] },
   ],
 };
 
