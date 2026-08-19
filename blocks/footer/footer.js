@@ -1,12 +1,14 @@
 /* eslint-disable */
 // Aware Investments footer — content-first, generic.
-// Reads /content/footer.plain.html: section 1 = link columns + disclaimer,
-// section 2 = app download (mobile-only), section 3 = bottom bar (copyright + links).
+// Reads /footer.plain.html (production) or /content/footer.plain.html (local).
+// The EDS pipeline may merge the fragment's sections into a single <div>, so
+// this parses by content markers rather than fixed section indexes:
+//   - <h2>  => a link column (its following <ul> and/or <p> disclaimer belong to it)
+//   - <h3>  => the "Download our app" section (mobile-only)
+//   - <p> containing "©" => the bottom bar (its following <ul> = bottom links)
 
 export default async function decorate(block) {
   const footerMeta = block.querySelector('a')?.getAttribute('href');
-  // Try production root first (/footer.plain.html), then local /content path,
-  // then any explicit block-metadata footer path.
   let resp = await fetch('/footer.plain.html');
   if (!resp.ok) resp = await fetch('/content/footer.plain.html');
   if (!resp.ok && footerMeta) resp = await fetch(`${footerMeta}.plain.html`);
@@ -15,52 +17,55 @@ export default async function decorate(block) {
 
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
-  // EDS .plain.html strips <body>/<main>; fall back to direct top-level divs.
-  let sections = [...tmp.querySelectorAll('main > div, body > div')];
-  if (sections.length === 0) sections = [...tmp.children].filter((el) => el.tagName === 'DIV');
+  // Flatten to the elements we care about, in document order.
+  const nodes = [...tmp.querySelectorAll('h2, h3, ul, p')];
 
   block.textContent = '';
   const footer = document.createElement('div');
   footer.className = 'footer-inner';
 
-  // --- Section 1: link columns + disclaimer ---
-  if (sections[0]) {
-    const top = document.createElement('div');
-    top.className = 'footer-top';
-    const children = [...sections[0].children];
-    for (let i = 0; i < children.length; i += 1) {
-      const el = children[i];
-      if (el.tagName === 'H2') {
-        const col = document.createElement('div');
-        col.className = 'footer-col';
-        col.appendChild(el.cloneNode(true));
-        const next = children[i + 1];
-        if (next && next.tagName === 'UL') col.appendChild(next.cloneNode(true));
-        top.appendChild(col);
-      } else if (el.tagName === 'P') {
-        // disclaimer paragraphs — group under the preceding H2 column (already handled)
-        const lastCol = top.querySelector('.footer-col:last-child');
-        if (lastCol && !lastCol.querySelector('ul')) lastCol.appendChild(el.cloneNode(true));
-      }
+  const top = document.createElement('div');
+  top.className = 'footer-top';
+  const app = document.createElement('div');
+  app.className = 'footer-app';
+  const bottom = document.createElement('div');
+  bottom.className = 'footer-bottom';
+
+  let currentCol = null; // active footer-top column
+  let mode = 'top'; // top | app | bottom
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const el = nodes[i];
+    const tag = el.tagName;
+    const isCopyright = tag === 'P' && /©|\bcopyright\b/i.test(el.textContent);
+
+    if (tag === 'H3') {
+      // App-download section
+      mode = 'app';
+      app.appendChild(el.cloneNode(true));
+    } else if (isCopyright) {
+      mode = 'bottom';
+      bottom.appendChild(el.cloneNode(true));
+    } else if (tag === 'H2') {
+      mode = 'top';
+      currentCol = document.createElement('div');
+      currentCol.className = 'footer-col';
+      currentCol.appendChild(el.cloneNode(true));
+      top.appendChild(currentCol);
+    } else if (tag === 'UL') {
+      if (mode === 'bottom') bottom.appendChild(el.cloneNode(true));
+      else if (currentCol) currentCol.appendChild(el.cloneNode(true));
+    } else if (tag === 'P') {
+      // Non-copyright paragraph: belongs to the app section (image) or the
+      // current column (disclaimer text).
+      if (mode === 'app') app.appendChild(el.cloneNode(true));
+      else if (currentCol) currentCol.appendChild(el.cloneNode(true));
     }
-    footer.appendChild(top);
   }
 
-  // --- Section 2: app download (mobile-only, controlled by CSS) ---
-  if (sections[1]) {
-    const app = document.createElement('div');
-    app.className = 'footer-app';
-    [...sections[1].childNodes].forEach((n) => app.appendChild(n.cloneNode(true)));
-    footer.appendChild(app);
-  }
-
-  // --- Section 3: bottom bar ---
-  if (sections[2]) {
-    const bottom = document.createElement('div');
-    bottom.className = 'footer-bottom';
-    [...sections[2].childNodes].forEach((n) => bottom.appendChild(n.cloneNode(true)));
-    footer.appendChild(bottom);
-  }
+  if (top.children.length) footer.appendChild(top);
+  if (app.children.length) footer.appendChild(app);
+  if (bottom.children.length) footer.appendChild(bottom);
 
   block.appendChild(footer);
 }

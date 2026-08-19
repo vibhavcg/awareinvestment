@@ -36,33 +36,30 @@ export default async function decorate(block) {
 
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
-  // The EDS .plain.html pipeline strips <body>/<main>, so the fragment is just
-  // the top-level section <div>s. Fall back through main/body wrappers (aem up /
-  // local) to direct children (production .plain.html).
-  let sections = [...tmp.querySelectorAll('main > div, body > div')];
-  if (sections.length === 0) sections = [...tmp.children].filter((el) => el.tagName === 'DIV');
-  const brandSection = sections[0];
-  const navSection = sections[1];
+  // The EDS .plain.html pipeline may strip <body>/<main> AND merge the fragment's
+  // sections into a single <div>. So instead of relying on section[0]=brand /
+  // section[1]=nav, locate the logo and the h2+ul groups by content, wherever
+  // they sit in the DOM.
 
   block.textContent = '';
   const nav = document.createElement('nav');
   nav.setAttribute('aria-label', 'Main navigation');
 
-  // --- Brand / logo ---
+  // --- Brand / logo: the first link that contains an image ---
   const brand = document.createElement('div');
   brand.className = 'nav-brand';
-  if (brandSection) {
-    const logoLink = brandSection.querySelector('a');
-    if (logoLink) brand.appendChild(logoLink);
-  }
+  const logoImg = tmp.querySelector('a img, a picture');
+  const logoLink = logoImg ? logoImg.closest('a') : null;
+  if (logoLink) brand.appendChild(logoLink.cloneNode(true));
   nav.appendChild(brand);
 
-  // --- Nav sections (triggers + panels) ---
+  // --- Nav triggers + panels: every <h2> and its following <ul>, anywhere ---
   const navList = document.createElement('ul');
   navList.className = 'nav-list';
 
-  if (navSection) {
-    const children = [...navSection.children];
+  {
+    // Collect all h2/ul in document order across the whole fragment.
+    const children = [...tmp.querySelectorAll('h2, ul')];
     for (let i = 0; i < children.length; i += 1) {
       const el = children[i];
       if (el.tagName === 'H2') {
