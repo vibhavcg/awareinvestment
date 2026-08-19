@@ -196,6 +196,18 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/logo-strip.js
+  function parse6(element, { document: document2 }) {
+    const img = element.querySelector("img");
+    if (!img) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [[img]];
+    const block = WebImporter.Blocks.createBlock(document2, { name: "logo-strip", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/awareinvestments-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -285,6 +297,18 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/awareinvestments-images.js
   function transform3(hookName, element, payload) {
+    if (hookName === "beforeTransform") {
+      element.querySelectorAll("[data-cmp-src], [data-asset]").forEach((wrapper) => {
+        const real = wrapper.getAttribute("data-cmp-src") || wrapper.getAttribute("data-asset");
+        if (!real) return;
+        const img = wrapper.querySelector("img");
+        if (!img) return;
+        const current = img.getAttribute("src") || "";
+        if (!current || current.startsWith("blob:") || current.startsWith("data:")) {
+          img.setAttribute("src", real);
+        }
+      });
+    }
     if (hookName === "afterTransform") {
       element.querySelectorAll("img[src]").forEach((img) => {
         let src = img.getAttribute("src");
@@ -308,6 +332,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-content-page.js
   var parsers = {
+    "logo-strip": parse6,
     "cards-explore": parse5,
     "columns-split": parse4,
     "cards-feature": parse,
@@ -331,6 +356,9 @@ var CustomImportScript = (() => {
       "https://awareinvestments.aware.com.au/investment/privacy-uk"
     ],
     blocks: [
+      // Partner / advocacy logo band: a section holding a single composite logo
+      // image (served from the /custom/ DAM folder), no heading, no text.
+      { name: "logo-strip", instances: ['section.sectioncontainer:has(> div .cmp-image img[src*="/custom/"])'] },
       // 3-up "Where to next?" photo cards (image on top) → cards-explore.
       // Target the fixed-grid that holds the top-image tiles.
       { name: "cards-explore", instances: ["div.fixed-grid:has(> div > .contenttile-textimage.contenttile__image-position--top)"] },

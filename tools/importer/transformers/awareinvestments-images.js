@@ -24,6 +24,24 @@
  */
 
 export default function transform(hookName, element, payload) {
+  if (hookName === 'beforeTransform') {
+    // Resolve lazy-loaded core-image components: the live page defers loading
+    // (data-cmp-lazy) so the captured <img> src is a transient blob: URL. The
+    // canonical DAM path lives on the wrapper's data-cmp-src / data-asset. Copy
+    // it onto the <img> BEFORE block discovery so selectors and parsers see the
+    // real asset URL instead of a blob.
+    element.querySelectorAll('[data-cmp-src], [data-asset]').forEach((wrapper) => {
+      const real = wrapper.getAttribute('data-cmp-src') || wrapper.getAttribute('data-asset');
+      if (!real) return;
+      const img = wrapper.querySelector('img');
+      if (!img) return;
+      const current = img.getAttribute('src') || '';
+      if (!current || current.startsWith('blob:') || current.startsWith('data:')) {
+        img.setAttribute('src', real);
+      }
+    });
+  }
+
   if (hookName === 'afterTransform') {
     element.querySelectorAll('img[src]').forEach((img) => {
       let src = img.getAttribute('src');

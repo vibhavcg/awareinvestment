@@ -1,0 +1,21 @@
+.logo-strip {
+  text-align: center;
+  padding-bottom: 48px;
+}
+
+.logo-strip p {
+  margin: 0;
+}
+
+.logo-strip picture {
+  display: inline-block;
+  line-height: 0;
+}
+
+.logo-strip img {
+  display: block;
+  width: 100%;
+  max-width: 1128px;
+  height: auto;
+  margin: 0 auto;
+}

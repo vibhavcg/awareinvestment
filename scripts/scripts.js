@@ -77,8 +77,32 @@ function buildWidgetAutoBlocks(main) {
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
+/**
+ * Auto-builds a breadcrumb block at the top of interior content pages.
+ * The breadcrumb itself is derived from the URL path inside breadcrumb.js, so
+ * here we only insert an empty block ahead of the first section on qualifying
+ * pages (2+ path segments, i.e. not the homepage or top-level landing pages).
+ * @param {Element} main The container element
+ */
+function buildBreadcrumbAutoBlock(main) {
+  const segments = window.location.pathname
+    .replace(/\.plain\.html$/, '')
+    .replace(/\.html$/, '')
+    .replace(/\/$/, '')
+    .split('/')
+    .filter(Boolean);
+  if (segments.length < 2) return;
+  if (main.querySelector('.breadcrumb')) return;
+
+  const block = buildBlock('breadcrumb', '');
+  const section = document.createElement('div');
+  section.append(block);
+  main.prepend(section);
+}
+
 function buildAutoBlocks(main) {
   try {
+    buildBreadcrumbAutoBlock(main);
     // auto load `*/fragments/*` references
     const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')].filter((f) => !f.closest('.fragment'));
     if (fragments.length > 0) {

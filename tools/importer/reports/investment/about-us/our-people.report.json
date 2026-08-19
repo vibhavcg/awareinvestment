@@ -2,10 +2,11 @@
   "status": "success",
   "url": "https://awareinvestments.aware.com.au/investment/about-us/our-people",
   "path": "investment/about-us/our-people",
-  "timestamp": "2026-08-18T12:44:01.306Z",
+  "timestamp": "2026-08-19T07:35:06.693Z",
   "title": "Our people | Investments",
   "template": "content-page",
   "blocks": [
+    "cards-explore",
     "cards-nav"
   ]
 }

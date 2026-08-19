@@ -7,6 +7,7 @@ import accordionCardsParser from './parsers/accordion-cards.js';
 import cardsNavParser from './parsers/cards-nav.js';
 import columnsSplitParser from './parsers/columns-split.js';
 import cardsExploreParser from './parsers/cards-explore.js';
+import logoStripParser from './parsers/logo-strip.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/awareinvestments-cleanup.js';
@@ -15,6 +16,7 @@ import imagesTransformer from './transformers/awareinvestments-images.js';
 
 // PARSER REGISTRY
 const parsers = {
+  'logo-strip': logoStripParser,
   'cards-explore': cardsExploreParser,
   'columns-split': columnsSplitParser,
   'cards-feature': cardsFeatureParser,
@@ -40,6 +42,9 @@ const PAGE_TEMPLATE = {
     'https://awareinvestments.aware.com.au/investment/privacy-uk',
   ],
   blocks: [
+    // Partner / advocacy logo band: a section holding a single composite logo
+    // image (served from the /custom/ DAM folder), no heading, no text.
+    { name: 'logo-strip', instances: ['section.sectioncontainer:has(> div .cmp-image img[src*="/custom/"])'] },
     // 3-up "Where to next?" photo cards (image on top) → cards-explore.
     // Target the fixed-grid that holds the top-image tiles.
     { name: 'cards-explore', instances: ['div.fixed-grid:has(> div > .contenttile-textimage.contenttile__image-position--top)'] },

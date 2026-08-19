@@ -2,10 +2,14 @@
   "status": "success",
   "url": "https://awareinvestments.aware.com.au/investment/about-us",
   "path": "investment/about-us",
-  "timestamp": "2026-08-18T12:43:02.786Z",
+  "timestamp": "2026-08-19T07:34:54.320Z",
   "title": "About us | Investments",
   "template": "content-page",
   "blocks": [
-    "cards-nav"
+    "cards-explore",
+    "columns-split",
+    "columns-split",
+    "cards-feature",
+    "cards-feature"
   ]
 }

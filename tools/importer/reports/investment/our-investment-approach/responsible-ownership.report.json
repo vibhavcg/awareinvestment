@@ -2,10 +2,13 @@
   "status": "success",
   "url": "https://awareinvestments.aware.com.au/investment/our-investment-approach/responsible-ownership",
   "path": "investment/our-investment-approach/responsible-ownership",
-  "timestamp": "2026-08-18T12:45:52.856Z",
+  "timestamp": "2026-08-19T08:06:30.187Z",
   "title": "Responsible Ownership | Investments",
   "template": "content-page",
   "blocks": [
+    "logo-strip",
+    "cards-explore",
+    "columns-split",
     "cards-nav"
   ]
 }
