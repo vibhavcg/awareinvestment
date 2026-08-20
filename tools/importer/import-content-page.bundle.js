@@ -209,7 +209,10 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/hero-banner.js
-  function parse7(element, { document: document2 }) {
+  var IMAGE_LEFT_PATHS = /* @__PURE__ */ new Set([
+    "/investment/our-investment-approach"
+  ]);
+  function parse7(element, { document: document2, url }) {
     const img = element.querySelector(".banner-background-image, .banner-container img, img");
     const heading = element.querySelector("h1");
     if (!heading) {
@@ -226,7 +229,13 @@ var CustomImportScript = (() => {
     const cells = [];
     cells.push([img || ""]);
     cells.push(titleCell);
-    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-banner", cells });
+    let path = "";
+    try {
+      path = new URL(url).pathname.replace(/\.html?$/, "").replace(/\/$/, "");
+    } catch (e) {
+    }
+    const name = IMAGE_LEFT_PATHS.has(path) ? "hero-banner (image-left)" : "hero-banner";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(block);
   }
 

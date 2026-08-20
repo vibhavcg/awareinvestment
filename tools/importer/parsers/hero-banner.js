@@ -10,8 +10,16 @@
  *   Row 1: block name (+ optional "image-left" variant for placement)
  *   Row 2: single cell — Background Image (optional)
  *   Row 3: single cell — Title (H1), plus any subheading / CTA
+ *
+ * Image placement is an authoring choice, not part of the source (which is
+ * always image-right). Pages listed in IMAGE_LEFT_PATHS get the `image-left`
+ * variant so the preference round-trips through re-imports.
  */
-export default function parse(element, { document }) {
+const IMAGE_LEFT_PATHS = new Set([
+  '/investment/our-investment-approach',
+]);
+
+export default function parse(element, { document, url }) {
   const img = element.querySelector('.banner-background-image, .banner-container img, img');
   const heading = element.querySelector('h1');
 
@@ -33,6 +41,12 @@ export default function parse(element, { document }) {
   cells.push([img || '']);
   cells.push(titleCell);
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'hero-banner', cells });
+  let path = '';
+  try {
+    path = new URL(url).pathname.replace(/\.html?$/, '').replace(/\/$/, '');
+  } catch (e) { /* url may be undefined in some contexts */ }
+  const name = IMAGE_LEFT_PATHS.has(path) ? 'hero-banner (image-left)' : 'hero-banner';
+
+  const block = WebImporter.Blocks.createBlock(document, { name, cells });
   element.replaceWith(block);
 }
