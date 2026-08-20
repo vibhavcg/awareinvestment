@@ -8,6 +8,7 @@ import cardsNavParser from './parsers/cards-nav.js';
 import columnsSplitParser from './parsers/columns-split.js';
 import cardsExploreParser from './parsers/cards-explore.js';
 import logoStripParser from './parsers/logo-strip.js';
+import heroBannerParser from './parsers/hero-banner.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/awareinvestments-cleanup.js';
@@ -16,6 +17,7 @@ import imagesTransformer from './transformers/awareinvestments-images.js';
 
 // PARSER REGISTRY
 const parsers = {
+  'hero-banner': heroBannerParser,
   'logo-strip': logoStripParser,
   'cards-explore': cardsExploreParser,
   'columns-split': columnsSplitParser,
@@ -42,6 +44,9 @@ const PAGE_TEMPLATE = {
     'https://awareinvestments.aware.com.au/investment/privacy-uk',
   ],
   blocks: [
+    // Page-title hero: the leading `.banner` block whose card carries the H1
+    // and a background image → hero-banner (50/50 magenta card + image).
+    { name: 'hero-banner', instances: ['.banner:has(.banner-container img):has(h1)'] },
     // Partner / advocacy logo band: a section holding a single composite logo
     // image (served from the /custom/ DAM folder), no heading, no text.
     { name: 'logo-strip', instances: ['section.sectioncontainer:has(> div .cmp-image img[src*="/custom/"])'] },

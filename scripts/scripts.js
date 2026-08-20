@@ -79,13 +79,15 @@ function buildWidgetAutoBlocks(main) {
  */
 /**
  * Auto-decorates the page-title banner and breadcrumb on interior content pages.
- * On the source site every interior page opens with a full-width magenta band
- * carrying the H1 title, followed by the breadcrumb trail on a white strip.
- * The imported content only holds a bare H1, so here we:
- *   1. tag the leading H1-only section as a `banner` (styled in styles.css), and
- *   2. insert a breadcrumb block (URL-driven, see breadcrumb.js) right after it.
- * Runs before decorateSections, so the `banner` class is picked up as a section
- * background variant. Skipped on the homepage / top-level landing pages.
+ * On the source site every interior page opens with a title banner, followed by
+ * the breadcrumb trail on a white strip. Two banner shapes exist:
+ *   - image hero: authored as a `hero-banner` block (50/50 magenta card + image)
+ *     — it styles itself, so we leave it untouched here.
+ *   - text-only: a bare H1 section, tagged `banner` for the plain magenta band.
+ * In both cases we insert the URL-driven breadcrumb (see breadcrumb.js) right
+ * after the title section. Runs before decorateSections so any `banner` class is
+ * picked up as a section background variant. Skipped on the homepage / top-level
+ * landing pages.
  * @param {Element} main The container element
  */
 function buildBreadcrumbAutoBlock(main) {
@@ -98,23 +100,19 @@ function buildBreadcrumbAutoBlock(main) {
   if (segments.length < 2) return;
   if (main.querySelector('.breadcrumb')) return;
 
-  // Tag the leading section (the one holding the page-title H1) as the banner.
-  // If that section also carries a hero image, mark it `banner-hero` so it
-  // renders as a 50/50 split (magenta title card + image) rather than the
-  // plain full-width magenta text band used on image-less pages.
+  // The leading section holds the page title — either as a hero-banner block or
+  // a bare H1. Only the bare-H1 case needs the `banner` band class; the
+  // hero-banner block owns its own full-bleed styling.
   const firstSection = [...main.children].find((div) => div.querySelector('h1'));
-  if (firstSection) {
+  if (firstSection && !firstSection.querySelector('.hero-banner')) {
     firstSection.classList.add('banner');
-    if (firstSection.querySelector('picture, img')) {
-      firstSection.classList.add('banner-hero');
-    }
   }
 
   const block = buildBlock('breadcrumb', '');
   const section = document.createElement('div');
   section.append(block);
-  // Place the breadcrumb directly after the banner (source order), or at the
-  // top if no title section was found.
+  // Place the breadcrumb directly after the title section (source order), or at
+  // the top if no title section was found.
   if (firstSection) firstSection.after(section);
   else main.prepend(section);
 }

@@ -2,10 +2,11 @@
   "status": "success",
   "url": "https://awareinvestments.aware.com.au/investment/our-investment-approach",
   "path": "investment/our-investment-approach",
-  "timestamp": "2026-08-19T07:35:12.838Z",
+  "timestamp": "2026-08-20T00:52:11.855Z",
   "title": "Our investment approach | Investments",
   "template": "content-page",
   "blocks": [
+    "hero-banner",
     "columns-split",
     "columns-split",
     "columns-split",

@@ -208,6 +208,28 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/hero-banner.js
+  function parse7(element, { document: document2 }) {
+    const img = element.querySelector(".banner-background-image, .banner-container img, img");
+    const heading = element.querySelector("h1");
+    if (!heading) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const titleCell = [heading];
+    const card = heading.closest(".banner-content-card") || heading.parentElement;
+    if (card) {
+      card.querySelectorAll("h2, h3, p, a").forEach((el) => {
+        if (el.textContent.trim()) titleCell.push(el);
+      });
+    }
+    const cells = [];
+    cells.push([img || ""]);
+    cells.push(titleCell);
+    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-banner", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/awareinvestments-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -332,6 +354,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-content-page.js
   var parsers = {
+    "hero-banner": parse7,
     "logo-strip": parse6,
     "cards-explore": parse5,
     "columns-split": parse4,
@@ -356,6 +379,9 @@ var CustomImportScript = (() => {
       "https://awareinvestments.aware.com.au/investment/privacy-uk"
     ],
     blocks: [
+      // Page-title hero: the leading `.banner` block whose card carries the H1
+      // and a background image → hero-banner (50/50 magenta card + image).
+      { name: "hero-banner", instances: [".banner:has(.banner-container img):has(h1)"] },
       // Partner / advocacy logo band: a section holding a single composite logo
       // image (served from the /custom/ DAM folder), no heading, no text.
       { name: "logo-strip", instances: ['section.sectioncontainer:has(> div .cmp-image img[src*="/custom/"])'] },
