@@ -57,9 +57,12 @@
 /* ---- Placement: image on the right (default) ---- */
 .hero-banner.block.image-right .hero-banner-content {
   grid-column: 1;
-  /* 40px magenta border toward the image; overlap the image by the same 40px. */
-  border-right: 40px solid var(--banner-background-color, #ed008c);
+  /* Overlap the image by 40px and round the image-facing corners (top + bottom). */
+  box-sizing: border-box;
+  width: calc(100% + 40px);
   margin-right: -40px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 
 .hero-banner.block.image-right .hero-banner-image { grid-column: 2; }
@@ -67,8 +70,11 @@
 /* ---- Placement: image on the left ---- */
 .hero-banner.block.image-left .hero-banner-content {
   grid-column: 2;
-  border-left: 40px solid var(--banner-background-color, #ed008c);
+  box-sizing: border-box;
+  width: calc(100% + 40px);
   margin-left: -40px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
 }
 
 .hero-banner.block.image-left .hero-banner-image { grid-column: 1; }
@@ -85,9 +91,10 @@
     grid-column: 1;
     grid-row: 1;
     padding: 24px;
-    /* No horizontal overlap when stacked. */
-    border: 0;
+    /* No horizontal overlap or rounding when stacked. */
+    width: auto;
     margin: 0;
+    border-radius: 0;
   }
 
   .hero-banner.block.image-left .hero-banner-image,
