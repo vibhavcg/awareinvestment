@@ -78,10 +78,14 @@ function buildWidgetAutoBlocks(main) {
  * @param {Element} main The container element
  */
 /**
- * Auto-builds a breadcrumb block at the top of interior content pages.
- * The breadcrumb itself is derived from the URL path inside breadcrumb.js, so
- * here we only insert an empty block ahead of the first section on qualifying
- * pages (2+ path segments, i.e. not the homepage or top-level landing pages).
+ * Auto-decorates the page-title banner and breadcrumb on interior content pages.
+ * On the source site every interior page opens with a full-width magenta band
+ * carrying the H1 title, followed by the breadcrumb trail on a white strip.
+ * The imported content only holds a bare H1, so here we:
+ *   1. tag the leading H1-only section as a `banner` (styled in styles.css), and
+ *   2. insert a breadcrumb block (URL-driven, see breadcrumb.js) right after it.
+ * Runs before decorateSections, so the `banner` class is picked up as a section
+ * background variant. Skipped on the homepage / top-level landing pages.
  * @param {Element} main The container element
  */
 function buildBreadcrumbAutoBlock(main) {
@@ -94,10 +98,17 @@ function buildBreadcrumbAutoBlock(main) {
   if (segments.length < 2) return;
   if (main.querySelector('.breadcrumb')) return;
 
+  // Tag the leading section (the one holding the page-title H1) as the banner.
+  const firstSection = [...main.children].find((div) => div.querySelector('h1'));
+  if (firstSection) firstSection.classList.add('banner');
+
   const block = buildBlock('breadcrumb', '');
   const section = document.createElement('div');
   section.append(block);
-  main.prepend(section);
+  // Place the breadcrumb directly after the banner (source order), or at the
+  // top if no title section was found.
+  if (firstSection) firstSection.after(section);
+  else main.prepend(section);
 }
 
 function buildAutoBlocks(main) {

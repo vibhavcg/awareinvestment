@@ -161,12 +161,21 @@ main .section.highlight {
 main .section.banner {
   background-color: var(--banner-background-color);
   color: #fff;
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 main .section.banner h1,
 main .section.banner h2,
 main .section.banner h3 {
   color: #fff;
+  margin: 0;
+}
+
+main .section.banner h1 {
+  font-size: 38px;
+  line-height: 1.21;
+  font-weight: 700;
 }
 
 /* ---------- Responsive ---------- */

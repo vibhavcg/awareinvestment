@@ -1,3 +1,10 @@
+/* The breadcrumb sits on a compact white strip directly under the title
+   banner, so collapse the default (large) section padding around it. */
+main .section.breadcrumb-container {
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+
 .breadcrumb nav {
   font-family: var(--body-font-family, 'Poppins', arial, sans-serif);
 }
