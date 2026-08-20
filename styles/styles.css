@@ -178,6 +178,68 @@ main .section.banner h1 {
   font-weight: 700;
 }
 
+/* Hero variant: title section that also carries a hero image renders as a
+   50/50 split — magenta title card on the left, image bleeding on the right. */
+main .section.banner-hero {
+  padding: 0;
+  background-color: transparent;
+}
+
+main .section.banner-hero > div {
+  max-width: unset;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  min-height: 320px;
+}
+
+main .section.banner-hero h1 {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 48px 32px;
+  background-color: var(--banner-background-color);
+  color: #fff;
+}
+
+main .section.banner-hero p {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  height: 100%;
+  line-height: 0;
+}
+
+main .section.banner-hero picture,
+main .section.banner-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (width <= 900px) {
+  /* Stack: magenta title band on top, image below. */
+  main .section.banner-hero > div {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  main .section.banner-hero h1 {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 24px;
+  }
+
+  main .section.banner-hero p {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
 /* ---------- Responsive ---------- */
 
 @media (width <= 900px) {

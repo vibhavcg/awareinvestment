@@ -99,8 +99,16 @@ function buildBreadcrumbAutoBlock(main) {
   if (main.querySelector('.breadcrumb')) return;
 
   // Tag the leading section (the one holding the page-title H1) as the banner.
+  // If that section also carries a hero image, mark it `banner-hero` so it
+  // renders as a 50/50 split (magenta title card + image) rather than the
+  // plain full-width magenta text band used on image-less pages.
   const firstSection = [...main.children].find((div) => div.querySelector('h1'));
-  if (firstSection) firstSection.classList.add('banner');
+  if (firstSection) {
+    firstSection.classList.add('banner');
+    if (firstSection.querySelector('picture, img')) {
+      firstSection.classList.add('banner-hero');
+    }
+  }
 
   const block = buildBlock('breadcrumb', '');
   const section = document.createElement('div');
