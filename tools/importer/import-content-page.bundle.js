@@ -284,6 +284,15 @@ var CustomImportScript = (() => {
         });
       });
       WebImporter.DOMUtils.remove(element, ["span.sr-only"]);
+      const SOURCE_ORIGIN = "https://awareinvestments.aware.com.au";
+      element.querySelectorAll("a[href]").forEach((a) => {
+        const href = a.getAttribute("href");
+        if (href && href.startsWith(`${SOURCE_ORIGIN}/`)) {
+          a.setAttribute("href", href.slice(SOURCE_ORIGIN.length));
+        } else if (href === SOURCE_ORIGIN) {
+          a.setAttribute("href", "/");
+        }
+      });
     }
   }
 

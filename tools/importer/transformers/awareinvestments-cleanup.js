@@ -78,5 +78,19 @@ export default function transform(hookName, element, payload) {
     // --- Remove sr-only helper spans (e.g. <span class="sr-only">true</span> inside
     //     cmp-image wrappers) that are not authorable content. ---
     WebImporter.DOMUtils.remove(element, ['span.sr-only']);
+
+    // --- Rewrite internal <a href> from the source host to root-relative so
+    //     links stay on the EDS site. Only anchors are touched — image srcs
+    //     still point at the source DAM host (assets are not migrated). External
+    //     links (other hosts) and in-page anchors (#...) are left untouched. ---
+    const SOURCE_ORIGIN = 'https://awareinvestments.aware.com.au';
+    element.querySelectorAll('a[href]').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (href && href.startsWith(`${SOURCE_ORIGIN}/`)) {
+        a.setAttribute('href', href.slice(SOURCE_ORIGIN.length));
+      } else if (href === SOURCE_ORIGIN) {
+        a.setAttribute('href', '/');
+      }
+    });
   }
 }

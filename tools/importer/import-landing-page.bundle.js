@@ -237,6 +237,15 @@ var CustomImportScript = (() => {
         });
       });
       WebImporter.DOMUtils.remove(element, ["span.sr-only"]);
+      const SOURCE_ORIGIN = "https://awareinvestments.aware.com.au";
+      element.querySelectorAll("a[href]").forEach((a) => {
+        const href = a.getAttribute("href");
+        if (href && href.startsWith(`${SOURCE_ORIGIN}/`)) {
+          a.setAttribute("href", href.slice(SOURCE_ORIGIN.length));
+        } else if (href === SOURCE_ORIGIN) {
+          a.setAttribute("href", "/");
+        }
+      });
     }
   }
 
@@ -281,6 +290,18 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/awareinvestments-images.js
   function transform3(hookName, element, payload) {
+    if (hookName === "beforeTransform") {
+      element.querySelectorAll("[data-cmp-src], [data-asset]").forEach((wrapper) => {
+        const real = wrapper.getAttribute("data-cmp-src") || wrapper.getAttribute("data-asset");
+        if (!real) return;
+        const img = wrapper.querySelector("img");
+        if (!img) return;
+        const current = img.getAttribute("src") || "";
+        if (!current || current.startsWith("blob:") || current.startsWith("data:")) {
+          img.setAttribute("src", real);
+        }
+      });
+    }
     if (hookName === "afterTransform") {
       element.querySelectorAll("img[src]").forEach((img) => {
         let src = img.getAttribute("src");
