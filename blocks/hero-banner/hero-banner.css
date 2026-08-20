@@ -22,6 +22,9 @@
   padding: 48px 32px;
   background-color: var(--banner-background-color, #ed008c);
   color: #fff;
+  /* Sit above the image so the 40px overlap edge covers it. */
+  position: relative;
+  z-index: 1;
 }
 
 .hero-banner.block .hero-banner-content h1 {
@@ -52,11 +55,22 @@
 }
 
 /* ---- Placement: image on the right (default) ---- */
-.hero-banner.block.image-right .hero-banner-content { grid-column: 1; }
+.hero-banner.block.image-right .hero-banner-content {
+  grid-column: 1;
+  /* 40px magenta border toward the image; overlap the image by the same 40px. */
+  border-right: 40px solid var(--banner-background-color, #ed008c);
+  margin-right: -40px;
+}
+
 .hero-banner.block.image-right .hero-banner-image { grid-column: 2; }
 
 /* ---- Placement: image on the left ---- */
-.hero-banner.block.image-left .hero-banner-content { grid-column: 2; }
+.hero-banner.block.image-left .hero-banner-content {
+  grid-column: 2;
+  border-left: 40px solid var(--banner-background-color, #ed008c);
+  margin-left: -40px;
+}
+
 .hero-banner.block.image-left .hero-banner-image { grid-column: 1; }
 
 /* ---- Mobile: stack, title band on top, image below ---- */
@@ -71,6 +85,9 @@
     grid-column: 1;
     grid-row: 1;
     padding: 24px;
+    /* No horizontal overlap when stacked. */
+    border: 0;
+    margin: 0;
   }
 
   .hero-banner.block.image-left .hero-banner-image,
